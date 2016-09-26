@@ -1,0 +1,27 @@
+<a href="#/">&larr; Back</a>
+
+<p>Station: <strong>{{ ctrl.station }}</strong></p>
+
+<table>
+	<tr>
+		<th>#</th>
+		<th>Direction</th>
+		<th>Time</th>
+	</tr>
+	<tr>
+		<td>12</td>
+		<td>Bežigrad</td>
+		<td>4', 36', 57'</td>
+	</tr>
+	<tr>
+		<td>12D</td>
+		<td>Dragomelj</td>
+		<td>8', 24', 36'</td>
+	</tr>
+</table>
+
+<br />
+
+<a ng-click="ctrl.favorite()">+ Add to favorites</a>
+
+<pre>{{ ctrl.data }}</pre>
