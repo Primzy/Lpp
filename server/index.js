@@ -9,6 +9,7 @@ const socketio = require("./socket");
 let server = Restify.createServer();
 server.name = "Trola";
 
+server.use(Restify.bodyParser());
 server.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -45,7 +46,7 @@ function saveFavourite(req, res, next)
 {
 	// Ustvarimo novo instanco.
 	let Favourite = new db.Favourite({
-		name:   req.params.name.toLowerCase(),
+		name:   req.params.name,
 		number: req.params.number,
 		user:   req.params.user,
 	});
@@ -56,6 +57,9 @@ function saveFavourite(req, res, next)
 			console.error(err);
 			return;
 		}
+
+		// Na FE vrnemo podatek.
+		res.send(favourite);
 
 		// Zaključimo zahtevo.
 		return next();
