@@ -1,19 +1,25 @@
-"use strict"
+"use strict";
 
 const port = 45454;
 const Request = require("sync-request");
 const Restify = require("restify");
-const chalk = require("chalk");
 const db = require("./database");
 const socketio = require("./socket");
-const io = socketio.listen(api.server);
 
-let api = Restify.createServer();
-api.name = "Trola";
+let server = Restify.createServer();
+server.name = "Trola";
 
-api.get("/api/station/:name", getStation);
-api.post("/api/favourites", saveFavourite);
-api.get("/api/favourites/:user", getFavourites)
+server.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	return next();
+});
+
+const io = socketio.listen(server.server);
+
+server.get("/api/station/:name", getStation);
+server.post("/api/favourites", saveFavourite);
+server.get("/api/favourites/:user", getFavourites)
 
 function getStation(req, res, next)
 {
@@ -50,6 +56,7 @@ function saveFavourite(req, res, next)
 			console.error(err);
 			return;
 		}
+
 		// Zaključimo zahtevo.
 		return next();
 	});
@@ -74,6 +81,6 @@ function getFavourites(req, res, next)
 	});
 }
 
-api.listen(port, function() {
-	console.log(api.name + " listening at " + api.url);
+server.listen(port, function() {
+	console.log(server.name + " listening at " + server.url);
 });
