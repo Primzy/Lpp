@@ -20,6 +20,14 @@ a:hover {
 	color: white;
 }
 
+th {
+	text-align: left;
+}
+
+td {
+	padding-right: 50px;
+}
+
 .top {
 	position: absolute;
 	left: 0px;
