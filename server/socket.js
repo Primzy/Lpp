@@ -1,11 +1,13 @@
 "use strict"
 const socketio = require('socket.io');
-let headers = {
-	'Accept': 'application/json'
+const headers = {
+		'Accept': 'application/json'
 };
-let intervals = [];
 
 module.exports.listen = function(app){
+
+	let intervals = [];
+
 	let io = socketio.listen(app);
 
     io.sockets.on('connection', function (socket) {
