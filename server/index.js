@@ -4,7 +4,6 @@ const port = 45454;
 const Request = require("sync-request");
 const Restify = require("restify");
 const db = require("./database");
-const socketio = require("./socket");
 
 let server = Restify.createServer();
 server.name = "Trola";
@@ -15,8 +14,6 @@ server.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	return next();
 });
-
-const io = socketio.listen(server.server);
 
 server.get("/api/station/:name", getStation);
 server.post("/api/favourites", saveFavourite);
