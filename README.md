@@ -1,15 +1,15 @@
 # Trola bus
----
+
 ## Install
 ### Node
----
+
 
 After pulling the repository run the following code in the terminal
 ```
     npm install
 ```
 ### Mongo
----
+
 #### Install
 Installing mongo is very easy with homebrew. Run your terminal and execute the following code:
 ```
@@ -47,7 +47,7 @@ This creates the database and favourites collection. The last line adds an uniqu
 
 
 ## Todo
----
+
 1. Add live data
 2. Send push notifications when bus is near (i need to leave 5min before the bus arrives)
 3. Add filters
