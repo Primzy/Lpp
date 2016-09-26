@@ -5,4 +5,9 @@ Read the installation [readme]
 
 ## Use
 
-[readme]: /server/README.md "Installation readme"
+
+
+
+
+
+[readme]: ./INSTALL.md "Installation readme"
