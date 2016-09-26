@@ -28,7 +28,7 @@ app.controller("FavoriteController", function(FavoriteService, $location) {
 	vm.favorites = FavoriteService.data;
 
 	vm.open = function(station) {
-		$location.path(station.name.replace(" ", "_"));
+		$location.path(station.name);
 	}
 });
 
@@ -36,7 +36,7 @@ app.controller("SearchController", function($location) {
 	var vm = this;
 
 	vm.search = function() {
-		$location.path(vm.station.replace(" " , "_"));
+		$location.path(vm.station);
 	}
 });
 
@@ -45,7 +45,7 @@ app.controller("StationController", function($routeParams, FavoriteService, $htt
 
 	vm.stations = [];
 
-	$http.get("http://localhost:45454/api/station/" + $routeParams.station.replace(" ", "_")).then(function(response) {
+	$http.get("http://localhost:45454/api/station/" + $routeParams.station).then(function(response) {
 		vm.stations = response.data.stations;
 		vm.json = JSON.stringify(vm.stations, null, 2);
 	});
