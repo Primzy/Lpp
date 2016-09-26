@@ -5,6 +5,8 @@ const Request = require("sync-request");
 const Restify = require("restify");
 const chalk = require("chalk");
 const db = require("./database");
+const socketio = require("./socket");
+const io = socketio.listen(api.server);
 
 let api = Restify.createServer();
 api.name = "Trola";
@@ -48,9 +50,6 @@ function saveFavourite(req, res, next)
 			console.error(err);
 			return;
 		}
-
-		console.log("Saved favourite for: " + Favourite.user);
-
 		// Zaključimo zahtevo.
 		return next();
 	});
