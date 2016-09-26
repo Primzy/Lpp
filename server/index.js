@@ -3,10 +3,12 @@
 const port = 45454;
 const Request = require("sync-request");
 const Restify = require("restify");
+let api = Restify.createServer();
 const chalk = require("chalk");
 const db = require("./database");
+const socketio = require("./socket");
+const io = socketio.listen(api.server);
 
-let api = Restify.createServer();
 api.name = "Trola";
 
 let headers = {
@@ -17,49 +19,57 @@ api.get('/station/:name', respond);
 api.post('/favourites', saveFavourite);
 api.get('/favourites/:user', getFavourites)
 
-function saveFavourite(req, res, next) {
+function saveFavourite(request, response, next) {
+
 	// Ustvarimo novo instanco favourite
 	let favourite = new db.Favourite({
-		name:req.params.name.toLowerCase(),
-		number:req.params.number,
-		user:req.params.user
+		name:request.params.name.toLowerCase(),
+		number:request.params.number,
+		user:request.params.user
 	});
+
 	// Shranimo favouirte
 	favourite.save(function (err, favourite) {
 	  if (err) return console.error(err);
 	  console.log("Saved favourite for: " + favourite.user);
 
+	  // Na FE pošljemo favourite
+	  response.send(favourite);
+
 	  // Zaključimo zahtevo
 	  next();
 	});
 }
-function getFavourites(req, res, next) {
+
+function getFavourites(request, response, next) {
+
 	// Poiščemo uporabnikove favourites
-	Favourite.find({ user: req.param.user }, function(err, favourites){
+	Favourite.find({ user: request.param.user }, function(err, favourites){
 		if(err) return console.error(err);
 
 		// Pošljemo podatke na FE
-		res.send(favourites);
+		response.send(favourites);
 
 		// Zaključimo zahtevo
 		next();
 	});
 }
 
-function respond(req, res, next){
+function respond(request, response, next){
 
 	// Zahteva podatkov na trola.si
-	var data = Request('GET', 'http://www.trola.si/' + req.params.name, { 'headers': headers });
+	var data = Request('GET', 'http://www.trola.si/' + request.params.name, { 'headers': headers });
 
 	// Priprava podatkov
 	let json = JSON.parse(data.getBody());
 
 	// Podatke pošljemo na FE
-	res.send(json);
+	response.send(json);
 
 	// Zaključimo zahtevo
 	next();
 }
+
 api.listen(port, function() {
 	console.log('%s listening at %s', api.name, api.url);
 });
