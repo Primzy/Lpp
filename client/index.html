@@ -14,10 +14,10 @@
 			<h1><a href="#/">Trola</a></h1>
 		</div>
 
-		<div class="left" ng-controller="FavoriteController as fc">
+		<div class="left" ng-controller="FavoriteController as vm">
 			<ul>
-				<li ng-repeat="favorite in fc.favorites | orderBy: 'name'">
-					<a ng-href="#/{{ favorite.link }}">{{ favorite.name }}</a>
+				<li ng-repeat="favorite in vm.favorites | orderBy: 'name'">
+					<a ng-click="vm.open(favorite)">{{ favorite.name }}</a>
 				</li>
 			</ul>
 		</div>

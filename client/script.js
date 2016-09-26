@@ -3,54 +3,60 @@ var app = angular.module("App", ["ngRoute"]);
 app.config(function($routeProvider, $locationProvider) {
 	$routeProvider.when("/", {
 		templateUrl: "search.html",
-		controller: "SearchController as ctrl",
+		controller: "SearchController as vm",
 	}).when("/:station", {
 		templateUrl: "station.html",
-		controller: "StationController as ctrl",
+		controller: "StationController as vm",
 	});
 });
 
-app.service("FavoriteService", function() {
+app.service("FavoriteService", function($http) {
 	var vm = this;
 
-	vm.data = [{
-		name: "Hrastje",
-		link: "Hrastje",
-	}, {
-		name: "Bavarski dvor",
-		link: "Bavarski_dvor",
-	}];
+	vm.data = [];
+
+	$http.get("http://localhost:45454/api/favourites/1").then(function(response) {
+		for(var i = 0; i < response.data.length; i++) {
+			vm.data.push(response.data[i]);
+		}
+	});
 });
 
-app.controller("FavoriteController", function(FavoriteService) {
+app.controller("FavoriteController", function(FavoriteService, $location) {
 	var vm = this;
 
 	vm.favorites = FavoriteService.data;
+
+	vm.open = function(station) {
+		$location.path(station.name.replace(" ", "_"));
+	}
 });
 
 app.controller("SearchController", function($location) {
 	var vm = this;
 
-	function search() {
-		$location.path(vm.station);
+	vm.search = function() {
+		$location.path(vm.station.replace(" " , "_"));
 	}
-
-	vm.search = search;
 });
 
 app.controller("StationController", function($routeParams, FavoriteService, $http) {
 	var vm = this;
 
-	$http.get("http://www.trola.si/Hrastje").then(function(data) {
-		vm.data = data;
+	vm.stations = [];
+
+	$http.get("http://localhost:45454/api/station/" + $routeParams.station.replace(" ", "_")).then(function(response) {
+		vm.stations = response.data.stations;
+		vm.json = JSON.stringify(vm.stations, null, 2);
 	});
 
-	vm.station = $routeParams.station;
-
-	function favorite() {
-		FavoriteService.data.push({
-			name: "Test 123",
-			link: "Test_123",
+	function favorite(station) {
+		$http.post("http://localhost:45454/api/favourites", {
+			user: "1",
+			name: station.name,
+			number: station.number,
+		}).then(function(response) {
+			FavoriteService.data.push(response.data);
 		});
 	}
 

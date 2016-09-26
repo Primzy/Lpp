@@ -1,27 +1,24 @@
-<a href="#/">&larr; Back</a>
+<p ng-if="vm.stations.length == 0"><strong>Loading...</strong></p>
 
-<p>Station: <strong>{{ ctrl.station }}</strong></p>
+<div ng-repeat="station in vm.stations">
+	<h2>{{ station.name }} ({{ station.number }}) <small><a ng-click="vm.favorite(station)">+ Add to favorites</a></small></h2>
 
-<table>
-	<tr>
-		<th>#</th>
-		<th>Direction</th>
-		<th>Time</th>
-	</tr>
-	<tr>
-		<td>12</td>
-		<td>Bežigrad</td>
-		<td>4', 36', 57'</td>
-	</tr>
-	<tr>
-		<td>12D</td>
-		<td>Dragomelj</td>
-		<td>8', 24', 36'</td>
-	</tr>
-</table>
+	<table>
+		<tr>
+			<th>#</th>
+			<th>Direction</th>
+			<th>Time</th>
+		</tr>
+		<tr ng-repeat="bus in station.buses">
+			<td>{{ bus.number }}</td>
+			<td>{{ bus.direction }}</td>
+			<td ng-if="bus.arrivals.length > 0">{{ bus.arrivals }}</td>
+			<td ng-if="bus.arrivals.length == 0">Ni prihodov.</td>
+		</tr>
+	</table>
+	<br />
+</div>
 
 <br />
 
-<a ng-click="ctrl.favorite()">+ Add to favorites</a>
-
-<pre>{{ ctrl.data }}</pre>
+<pre>{{ vm.json }}</pre>

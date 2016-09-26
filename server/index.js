@@ -53,11 +53,6 @@ function saveFavourite(req, res, next)
 
 	// Shranimo priljubljeno postajo.
 	Favourite.save(function(err, favourite) {
-		if(err) {
-			console.error(err);
-			return;
-		}
-
 		// Na FE vrnemo podatek.
 		res.send(favourite);
 
@@ -72,11 +67,6 @@ function getFavourites(req, res, next)
 	db.Favourite.find({
 		user: req.params.user
 	}, function(err, favourites) {
-		if(err) {
-			console.error(err);
-			return;
-		}
-
 		// Pošljemo podatke na FE.
 		res.send(favourites);
 
