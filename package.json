@@ -1,11 +1,8 @@
 {
   "name": "lpp",
-  "version": "0.0.0",
-  "description": "Lpp bus arrival",
+  "version": "0.0.1",
+  "description": "LPP bus arrival",
   "main": "server/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pbozic/Lpp.git"
@@ -15,7 +12,10 @@
     "bus",
     "tracking"
   ],
-  "author": "Primoz Bozic",
+  "author": [
+    "Primož Božič",
+    "Klemen Košir"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/pbozic/Lpp/issues"
