@@ -45,6 +45,7 @@ function getFavourites(req, res, next) {
 		next();
 	});
 }
+
 function respond(req, res, next){
 
 	// Zahteva podatkov na trola.si
