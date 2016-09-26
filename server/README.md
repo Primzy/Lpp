@@ -1,15 +1,15 @@
 # Trola bus
----
+
 ## Install
 ### Node
----
+
 
 After pulling the repository run the following code in the terminal
 ```
     npm install
 ```
 ### Mongo
----
+
 #### Install
 Installing mongo is very easy with homebrew. Run your terminal and execute the following code:
 ```
